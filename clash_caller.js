@@ -147,7 +147,7 @@ exports.is_user_admin = function(user_id){
 
 }
 exports.get_log = function(){
-  conn.query('SELECT * FROM `log`', function(err, res, fld){
+  conn.query('SELECT * FROM (SELECT * FROM `log` ORDER BY time DESC LIMIT 15) g ORDER by g.time', function(err, res, fld){
     message_ = [];
     if(res.length > 0){
       for(i in res){
@@ -245,6 +245,7 @@ exports.start_war = function(war_size, enemy_name) {
       war_id = body.replace(/war\//, '');
       save_code_db(war_id);
       gm_text_ = "Started new clash caller (" + war_id + "). Type:\n/cc - to view link";
+      ("New clash caller: " + war_id).save_log();
       gm_text_.post_text();
     }
   });
@@ -288,7 +289,7 @@ exports.update_stars = function(number, stars) {
           'value': stars + 2
         }
       }, function(err, http, body) {
-        gm_text_ = "Logged " + stars + " stars on #" + number;
+        gm_text_ = "Logged " + stars + " stars on #" + number + " by " + user_name;
         gm_text_.save_log();
         gm_text_.post_text();
       });

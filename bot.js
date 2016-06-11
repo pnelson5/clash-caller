@@ -199,7 +199,8 @@ function async_respond() {
                 if (admin_help == '-a') {
                   message_ += "/set cc (code) - Set new clash caller code manually\n" +
                     "/start war (war size) (enemy name) - Start new clash caller and save\n" +
-                    "/clear log - Clear log";
+                    "/clear log - Clear log\n" +
+                    "/set timer (start|end) ##h##m - Adjust war timings";
                 }
             }
           }
@@ -215,6 +216,7 @@ function async_respond() {
       }
     ]);
   }
+  this.res.end();
 }
 
 exports.respond = async_respond;
