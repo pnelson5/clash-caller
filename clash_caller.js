@@ -14,8 +14,8 @@ db_url = process.env.CLEARDB_DATABASE_URL;
 var conn = mysql.createConnection(db_url);
 
 
-var my_clan_name = "Your clan name here"; // Your clan name
-var war_call_timer = 6; // Timer for calls. How long until a call expires.
+var my_clan_name = "Why So Golem?"; // Your clan name
+var war_call_timer = 2; // Timer for calls. How long until a call expires.
 var user_name = "";
 var user_id = "";
 var caller_code = "";
