@@ -51,7 +51,6 @@ server.listen(port);
 function setup_db() {
   var message_ = [];
   var res_ = this.res;
-  conn.connect();
   conn.query('SELECT table_name FROM information_schema.tables WHERE table_name = ?', ['clash_caller'], function(e, r, f) {
     if (r.length == 0) {
       message_.push('Creating new table');
@@ -74,21 +73,16 @@ function setup_db() {
       });
     }
   });
-  conn.end();
 }
-
 function get_code(){
   var res_ = this.res;
-  conn.connect();
   conn.query('SELECT * FROM `clash_caller`', function(err, res, fld) {
     res_.end('Caller code: ' + res[0].caller_code);
   });
-  conn.end();
 }
 
 function get_log(){
   var res_ = this.res;
-  conn.connect();
   conn.query('SELECT * FROM `log`', function(err, res, fld){
     message_ = [];
     if(res.length > 0){
@@ -100,7 +94,6 @@ function get_log(){
       res_.end("Nothing logged");
     }
   });
-  conn.end();
 }
 
 

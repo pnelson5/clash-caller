@@ -14,7 +14,7 @@ db_url = process.env.CLEARDB_DATABASE_URL;
 var conn = mysql.createConnection(db_url);
 
 
-var my_clan_name = "Why So Golem"; // Your clan name
+var my_clan_name = "Why So Golem?"; // Your clan name
 var war_call_timer = 2; // Timer for calls. How long until a call expires.
 var user_name = "";
 var user_id = "";
@@ -32,9 +32,7 @@ String.prototype.post_text = function() {
 
 String.prototype.save_log = function() {
   console.log("Log: " + this.valueOf());
-  conn.connect();
   conn.query('INSERT INTO `log` (message, time) VALUES (?,?)', [this.valueOf(), (new Date().getTime())]);
-  conn.end();
 }
 
 function hm(t) {
@@ -68,11 +66,8 @@ function save_cc(c) {
 }
 
 function save_code_db(code){
-  conn.connect();
   conn.query('UPDATE `clash_caller` SET caller_code = ?', [code]);
-  conn.end();
 }
-
 function get_hours(n) {
   return 1000 * 60 * 60 * n;
 }
@@ -152,7 +147,6 @@ exports.is_user_admin = function(user_id){
 
 }
 exports.get_log = function(){
-  conn.connect();
   conn.query('SELECT * FROM (SELECT * FROM `log` ORDER BY time DESC LIMIT 15) g ORDER by g.time', function(err, res, fld){
     message_ = [];
     if(res.length > 0){
@@ -164,14 +158,11 @@ exports.get_log = function(){
       "Nothing logged".post_text();
     }
   });
-  conn.end();
 }
 exports.clear_log = function(){
-  conn.connect();
   conn.query('DELETE FROM `log` WHERE 1', function(err, res, fld){
     "Log cleared".post_text();
   });
-  conn.end();
 }
 exports.cc_url = function() {
   cc_code_ = fetch_cc();

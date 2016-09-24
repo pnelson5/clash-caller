@@ -51,15 +51,11 @@ function save_cc(c) {
 }
 
 function save_code_db(code) {
-  conn.connect();
   conn.query('UPDATE `clash_caller` SET caller_code = ?', [code]);
-  conn.end();
 }
 
 function save_log(message) {
-  conn.connect();
   conn.query('INSERT INTO `log` (message, time) VALUES (?,?)', [message, (new Date().getTime())]);
-  conn.end();
 }
 
 
@@ -68,11 +64,9 @@ function async_respond() {
   if (typeof request_.sender_id != 'undefined') {
     async.waterfall([
       function(callback) {
-        conn.connect();
         conn.query('SELECT * FROM `clash_caller`', function(err, res, fld) {
           callback(null, res[0].caller_code);
         });
-        conn.end();
       },
       function(cc_code, callback) {
         user_id = request_.sender_id;
