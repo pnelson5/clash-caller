@@ -16,6 +16,10 @@ client.on('connect', function()  {
   console.log('connected');
 });
 
+client.on('error', function(err) {
+  console.log("Error " + err);
+});
+
 router = new director.http.Router({
   '/': {
     post: bot.respond,

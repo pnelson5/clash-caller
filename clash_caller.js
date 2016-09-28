@@ -57,10 +57,9 @@ function hm(t) {
   return '1m';
 }
 
-function fetch_cc() {
+function fetch_cc(callback) {
   client.get('code', function(err, reply) {
-    if (error) res.send('Error:' + error);
-    else res.send(reply);
+    callback(err,reply);
   });
 }
 
@@ -171,14 +170,18 @@ exports.clear_log = function(){
   });
 }
 exports.cc_url = function() {
-  cc_code_ = fetch_cc();
-  gm_text_ = 'http://clashcaller.com/war/' + cc_code_;
-  gm_text_.post_text();
-  return gm_text_;
+  fetch_cc(function(err, result){
+    cc_code_ = result;
+    gm_text_ = 'http://clashcaller.com/war/' + cc_code_;
+    gm_text_.post_text();
+    return gm_text_;
+  });
 }
 exports.cc_code = function() {
-  cc_code_ = fetch_cc();
-  return cc_code_;
+  fetch_cc(function(err, result){
+    cc_code_ = result;
+    return cc_code_;
+  });
 }
 exports.config = function(data) {
   caller_code = data.cc;

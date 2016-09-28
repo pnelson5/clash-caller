@@ -39,10 +39,9 @@ function is_admin(user_id) {
   return in_array(ad_, user_id);
 }
 
-function fetch_cc() {
+function fetch_cc(callback) {
   client.get('code', function(err, reply) {
-    if (error) res.send('Error:' + error);
-    else res.send(reply);
+    callback(err,reply);
   });
 }
 
@@ -66,7 +65,9 @@ function async_respond() {
   if (typeof request_.sender_id != 'undefined') {
     async.waterfall([
       function(callback) {
-          callback(null, fetch_cc());
+        fetch_cc(err, result){
+          callback(null, result);
+        }
       },
       function(cc_code, callback) {
         user_id = request_.sender_id;
