@@ -9,7 +9,7 @@ var in_array = require('in-array');
 var async = require('async');
 var moment = require('moment');
 
-var myredis = require('myredis');
+var myredis = require('./myredis.js');
 
 router = new director.http.Router({
   '/': {

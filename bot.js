@@ -8,7 +8,7 @@ var request = require('request');
 var in_array = require('in-array');
 var async = require('async');
 
-var myredis = require('myredis');
+var myredis = require('./myredis.js');
 
 var cc_ = require('./clash_caller.js');
 

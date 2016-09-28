@@ -10,7 +10,7 @@ var in_array = require('in-array');
 var async = require('async');
 var moment = require('moment');
 
-var myredis = require('myredis');
+var myredis = require('./myredis.js');
 
 var my_clan_name = "Why So Golem?"; // Your clan name
 var war_call_timer = 2; // Timer for calls. How long until a call expires.
