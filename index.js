@@ -49,7 +49,7 @@ server.listen(port);
 function get_code(){
   var res_ = this.res;
   client.get('code', function(err, res, fld) {
-    res_.end('Caller code: ' + res[0].caller_code);
+    res_.end('Caller code: ' + res);
   });
 }
 
