@@ -58,10 +58,11 @@ function hm(t) {
 }
 
 function fetch_cc() {
+  var reply_ = this.reply;
   client.get('code', function(err, reply) {
     console.log(reply);
-    return reply;
   });
+  return reply_;
 }
 
 function save_cc(c) {
