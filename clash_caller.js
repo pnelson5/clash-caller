@@ -36,7 +36,7 @@ String.prototype.post_text = function() {
 
 String.prototype.save_log = function() {
   console.log("Log: " + this.valueOf());
-  client.rpush(['log', this.valueOf(), new Date.getTime()], function(err, reply) {
+  client.rpush(['log', this.valueOf(), (new Date().getTime())], function(err, reply) {
     console.log(reply);
   });
 }
