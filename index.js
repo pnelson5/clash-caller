@@ -47,9 +47,8 @@ port = Number(process.env.PORT || 5000);
 server.listen(port);
 
 function get_code(){
-  var res_ = this.res;
-  client.get('code', function(err, res, fld) {
-    res_.end('Caller code: ' + res);
+  client.get('code', function(error, reply) {
+    res.send('Caller code: ' + reply);
   });
 }
 

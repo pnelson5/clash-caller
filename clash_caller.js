@@ -58,11 +58,10 @@ function hm(t) {
 }
 
 function fetch_cc() {
-  var reply_ = this.reply;
   client.get('code', function(err, reply) {
-    console.log(reply);
+    if (error) res.send('Error:' + error);
+    else res.send(reply);
   });
-  return reply_;
 }
 
 function save_cc(c) {
@@ -172,13 +171,13 @@ exports.clear_log = function(){
   });
 }
 exports.cc_url = function() {
-  cc_code_ = client.get('code');
+  cc_code_ = fetch_cc();
   gm_text_ = 'http://clashcaller.com/war/' + cc_code_;
   gm_text_.post_text();
   return gm_text_;
 }
 exports.cc_code = function() {
-  cc_code_ = client.get('code');
+  cc_code_ = fetch_cc();
   return cc_code_;
 }
 exports.config = function(data) {

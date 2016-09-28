@@ -40,11 +40,10 @@ function is_admin(user_id) {
 }
 
 function fetch_cc() {
-  var reply_ = this.reply;
   client.get('code', function(err, reply) {
-    console.log(reply);
+    if (error) res.send('Error:' + error);
+    else res.send(reply);
   });
-  return reply_;
 }
 
 function save_cc(c) {
@@ -67,7 +66,7 @@ function async_respond() {
   if (typeof request_.sender_id != 'undefined') {
     async.waterfall([
       function(callback) {
-          callback(null, client.get('code'));
+          callback(null, fetch_cc());
       },
       function(cc_code, callback) {
         user_id = request_.sender_id;
