@@ -172,13 +172,13 @@ exports.clear_log = function(){
   });
 }
 exports.cc_url = function() {
-  cc_code_ = fetch_cc();
+  cc_code_ = client.get('code');
   gm_text_ = 'http://clashcaller.com/war/' + cc_code_;
   gm_text_.post_text();
   return gm_text_;
 }
 exports.cc_code = function() {
-  cc_code_ = fetch_cc();
+  cc_code_ = client.get('code');
   return cc_code_;
 }
 exports.config = function(data) {

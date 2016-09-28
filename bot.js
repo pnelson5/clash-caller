@@ -67,7 +67,7 @@ function async_respond() {
   if (typeof request_.sender_id != 'undefined') {
     async.waterfall([
       function(callback) {
-          callback(null, fetch_cc());
+          callback(null, client.get('code'));
       },
       function(cc_code, callback) {
         user_id = request_.sender_id;
