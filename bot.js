@@ -9,6 +9,7 @@ var in_array = require('in-array');
 var async = require('async');
 
 var myredis = require('./myredis.js');
+var client = myredis.client
 
 var cc_ = require('./clash_caller.js');
 

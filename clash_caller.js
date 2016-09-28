@@ -11,6 +11,7 @@ var async = require('async');
 var moment = require('moment');
 
 var myredis = require('./myredis.js');
+var client = myredis.client
 
 var my_clan_name = "Why So Golem?"; // Your clan name
 var war_call_timer = 2; // Timer for calls. How long until a call expires.

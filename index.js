@@ -10,6 +10,7 @@ var async = require('async');
 var moment = require('moment');
 
 var myredis = require('./myredis.js');
+var client = myredis.client
 
 router = new director.http.Router({
   '/': {
