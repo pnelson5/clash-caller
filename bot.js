@@ -8,8 +8,12 @@ var request = require('request');
 var in_array = require('in-array');
 var async = require('async');
 
-var myredis = require('./myredis.js');
-var client = myredis.client
+var redis = require('redis');
+var client = redis.createClient(process.env.REDIS_URL);
+
+client.on('connect', function()  {
+  console.log('connected');
+});
 
 var cc_ = require('./clash_caller.js');
 
