@@ -36,6 +36,13 @@ function is_admin(user_id) {
 }
 
 function fetch_cc() {
+  client.exists('code', function(err, reply) {
+    if (reply === 1) {
+      return client.get('code');
+    } else {
+      return ''
+    }
+  })
   return client.get('code', function(err, reply) {
     console.log(reply);
   });
