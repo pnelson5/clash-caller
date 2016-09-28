@@ -6,11 +6,9 @@ const fs = require('fs');
 
 var request = require('request');
 var in_array = require('in-array');
-var mysql = require('mysql');
 var async = require('async');
 
-db_url = process.env.CLEARDB_DATABASE_URL;
-var conn = mysql.createConnection(db_url);
+var myredis = require('myredis');
 
 var cc_ = require('./clash_caller.js');
 
@@ -37,17 +35,15 @@ function is_admin(user_id) {
 }
 
 function fetch_cc() {
-  json = fs.readFileSync('cc.json', 'utf-8');
-  ob = JSON.parse(json);
-  return ob.code;
+  return client.get('code', function(err, reply) {
+    console.log(reply);
+  });
 }
 
 function save_cc(c) {
-  ob = {
-    code: c
-  }
-  json = JSON.stringify(ob);
-  fs.writeFileSync('cc.json', json);
+  client.set('code', c, function(err, reply) {
+    console.log(reply);
+  });
 }
 
 function save_code_db(code) {
@@ -64,9 +60,7 @@ function async_respond() {
   if (typeof request_.sender_id != 'undefined') {
     async.waterfall([
       function(callback) {
-        conn.query('SELECT * FROM `clash_caller`', function(err, res, fld) {
-          callback(null, res[0].caller_code);
-        });
+          callback(null, fetch_cc());
       },
       function(cc_code, callback) {
         user_id = request_.sender_id;

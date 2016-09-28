@@ -6,13 +6,11 @@ const fs = require('fs');
 
 var request = require('request');
 var in_array = require('in-array');
-var mysql = require('mysql');
+
 var async = require('async');
 var moment = require('moment');
 
-db_url = process.env.CLEARDB_DATABASE_URL;
-var conn = mysql.createConnection(db_url);
-
+var myredis = require('myredis');
 
 var my_clan_name = "Why So Golem?"; // Your clan name
 var war_call_timer = 2; // Timer for calls. How long until a call expires.
@@ -32,7 +30,9 @@ String.prototype.post_text = function() {
 
 String.prototype.save_log = function() {
   console.log("Log: " + this.valueOf());
-  conn.query('INSERT INTO `log` (message, time) VALUES (?,?)', [this.valueOf(), (new Date().getTime())]);
+  client.rpush(['log', this.valueOf(), new Date.getTime()], function(err, reply) {
+    console.log(reply);
+  });
 }
 
 function hm(t) {
@@ -52,22 +52,21 @@ function hm(t) {
 }
 
 function fetch_cc() {
-  json = fs.readFileSync('cc.json', 'utf-8');
-  ob = JSON.parse(json);
-  return ob.code;
+  return client.get('code', function(err, reply) {
+    console.log(reply);
+  });
 }
 
 function save_cc(c) {
-  ob = {
-    code: c
-  }
-  json = JSON.stringify(ob);
-  fs.writeFileSync('cc.json', json);
+  client.set('code', c, function(err, reply) {
+    console.log(reply);
+  });
 }
 
 function save_code_db(code){
-  conn.query('UPDATE `clash_caller` SET caller_code = ?', [code]);
+  save_cc(code);
 }
+
 function get_hours(n) {
   return 1000 * 60 * 60 * n;
 }
@@ -147,7 +146,7 @@ exports.is_user_admin = function(user_id){
 
 }
 exports.get_log = function(){
-  conn.query('SELECT * FROM (SELECT * FROM `log` ORDER BY time DESC LIMIT 15) g ORDER by g.time', function(err, res, fld){
+  client.lrange('log', 0, -1, function(err, res, fld){
     message_ = [];
     if(res.length > 0){
       for(i in res){
@@ -160,8 +159,8 @@ exports.get_log = function(){
   });
 }
 exports.clear_log = function(){
-  conn.query('DELETE FROM `log` WHERE 1', function(err, res, fld){
-    "Log cleared".post_text();
+  client.rpush(['log'], function(err, reply) {
+    console.log(reply);
   });
 }
 exports.cc_url = function() {

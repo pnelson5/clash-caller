@@ -12,7 +12,7 @@
     "director": "",
     "in-array": "^0.1.2",
     "moment": "^2.13.0",
-    "mysql": "^2.11.0",
+    "redis": "",
     "request": "^2.72.0"
   },
   "engines": {
